@@ -174,7 +174,7 @@ if st.session_state.simulationDone:
             st.markdown(
                 f"""
                 <div style="
-                    background-color: #D3D3D3;
+                    background-color: #FFD700;
                     padding: 10px;
                     border-radius: 10px;
                     margin-bottom: 10px;
