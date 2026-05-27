@@ -32,10 +32,20 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+with st.sidebar:
+    st.header("Simulator Settings")
+
+    simulationCount = st.slider(
+        "Number of simulations",
+        100,
+        10000,
+        1000
+    )
+
+    runSimulation = st.button("Run Simulator")
+
 if "simulationDone" not in st.session_state:
     st.session_state.simulationDone = False
-
-simulationCount = st.slider("Number of simulations", 100, 10000, 1000)
 
 tab1, tab2, tab3, tab4 = st.tabs([
     "Simulator",
@@ -47,7 +57,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 groupStandings = {}
 
 with tab1:
-    if st.button("Run Simulator"):
+    if runSimulation:
         st.session_state.simulationDone = True
 
     if st.session_state.simulationDone:
