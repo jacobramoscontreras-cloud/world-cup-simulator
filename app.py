@@ -35,7 +35,7 @@ st.title("🏆 World Cup Simulator")
 
 selectedTeam = st.selectbox("Select a team", list(teamStats.keys()))
 
-#st.subheader(selectedTeam)
+st.subheader(teamFlags[selectedTeam] + " " + selectedTeam)
 #st.write("Attack:", teamStats[selectedTeam]["attack"])
 #st.write("Defense:", teamStats[selectedTeam]["defense"])
 #st.write("Strength:", getTeamStrength(selectedTeam))
@@ -94,7 +94,7 @@ if st.session_state.simulationDone:
 
     champion = championList[0]
 
-    st.success("🏆 Champion: " + champion)
+    st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
     
     st.header("🧩 Tournament Bracket")
 
@@ -180,7 +180,7 @@ if st.session_state.simulationDone:
 
     for team, wins in sortedTeams:
         percent = (wins / simulationCount) * 100
-        st.write(team, "-", round(percent, 2), "%")
+        st.write(teamFlags[team], team, "-", round(percent, 2), "%")
 
     st.header("Team Progression Probabilities")
 

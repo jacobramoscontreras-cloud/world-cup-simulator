@@ -77,6 +77,57 @@ teamStats = {
     "Ghana": {"attack": 77, "defense": 76}
 }
 
+teamFlags = {
+    "Mexico": "🇲🇽",
+    "South Korea": "🇰🇷",
+    "South Africa": "🇿🇦",
+    "Czechia": "🇨🇿",
+    "Canada": "🇨🇦",
+    "Switzerland": "🇨🇭",
+    "Qatar": "🇶🇦",
+    "Bosnia and Herzegovina": "🇧🇦",
+    "Brazil": "🇧🇷",
+    "Morocco": "🇲🇦",
+    "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "Haiti": "🇭🇹",
+    "United States": "🇺🇸",
+    "Australia": "🇦🇺",
+    "Paraguay": "🇵🇾",
+    "Turkey": "🇹🇷",
+    "Germany": "🇩🇪",
+    "Ecuador": "🇪🇨",
+    "Ivory Coast": "🇨🇮",
+    "Curacao": "🇨🇼",
+    "Netherlands": "🇳🇱",
+    "Japan": "🇯🇵",
+    "Tunisia": "🇹🇳",
+    "Sweden": "🇸🇪",
+    "Belgium": "🇧🇪",
+    "Iran": "🇮🇷",
+    "Egypt": "🇪🇬",
+    "New Zealand": "🇳🇿",
+    "Spain": "🇪🇸",
+    "Uruguay": "🇺🇾",
+    "Saudi Arabia": "🇸🇦",
+    "Cape Verde": "🇨🇻",
+    "France": "🇫🇷",
+    "Senegal": "🇸🇳",
+    "Norway": "🇳🇴",
+    "Iraq": "🇮🇶",
+    "Argentina": "🇦🇷",
+    "Austria": "🇦🇹",
+    "Algeria": "🇩🇿",
+    "Jordan": "🇯🇴",
+    "Portugal": "🇵🇹",
+    "Colombia": "🇨🇴",
+    "Uzbekistan": "🇺🇿",
+    "DR Congo": "🇨🇩",
+    "England": "🏴",
+    "Croatia": "🇭🇷",
+    "Panama": "🇵🇦",
+    "Ghana": "🇬🇭"
+}
+
 hostTeams = ["United States", "Mexico", "Canada"]
 
 upsetWins = {}
