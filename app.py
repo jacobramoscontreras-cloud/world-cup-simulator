@@ -57,12 +57,11 @@ with st.sidebar:
 if "simulationDone" not in st.session_state:
     st.session_state.simulationDone = False
 
-
-
 groupStandings = {}
 
-if page == "Simulator":
-    if runSimulation:
+if runSimulation:
+
+    if page == "Simulator":
         st.session_state.simulationDone = True
 
     if st.session_state.simulationDone:
