@@ -60,9 +60,9 @@ if "simulationDone" not in st.session_state:
 groupStandings = {}
 
 if runSimulation:
+    st.session_state.roundOf32, st.session_state.groupStandings = createRoundOf32()
 
-    if page == "Simulator":
-        st.session_state.simulationDone = True
+if page == "Simulator":
 
     if st.session_state.simulationDone:
         resetUpsets()
@@ -341,6 +341,11 @@ if runSimulation:
 
     elif page == "Groups":
         st.header("Group Stage Tables")
+        if "groupStandings" in st.session_state:
+            for groupName, standings in st.session_state.groupStandings.items():
+                st.subheader(groupName)
+        else:
+            st.info("Run the simulator first.")
         for groupName, standings in groupStandings.items():
             st.subheader(groupName)
         
