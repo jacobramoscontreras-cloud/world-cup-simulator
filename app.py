@@ -15,24 +15,21 @@ st.set_page_config(
     layout="wide"
 )
 st.markdown("""
-<style>
-.main {
-    background-color: #f7f9cd;
-}
-
-h1 {
+<div style="
+    background: linear-gradient(90deg, #0f172a, #1e3a8a);
+    padding: 35px;
+    border-radius: 20px;
     text-align: center;
-    font-size: 48px;
-}
-
-.metric-card {
-    background-color: black;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 2px 10px rgba(0,0,0,0.08);
-    text-align: center;
-}
-</style>
+    margin-bottom: 30px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.25);
+">
+    <h1 style="color: white; font-size: 60px; margin-bottom: 10px;">
+        🏆 World Cup Simulator
+    </h1>
+    <p style="color: #dbeafe; font-size: 22px;">
+        Simulate tournaments, predict matches, and explore World Cup probabilities
+    </p>
+</div>
 """, unsafe_allow_html=True)
 
 if "simulationDone" not in st.session_state:
