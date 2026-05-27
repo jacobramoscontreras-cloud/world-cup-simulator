@@ -314,19 +314,19 @@ with tab1:
             teamBWins = 0
             draws = 0
 
-        for i in range(1000):
-            goalsA, goalsB = playMatch(teamA, teamB)
+            for i in range(1000):
+                goalsA, goalsB = playMatch(teamA, teamB)
 
-            if goalsA > goalsB:
-                teamAWins += 1
-            elif goalsB > goalsA:
-                teamBWins += 1
-            else:
-                draws += 1
+                if goalsA > goalsB:
+                    teamAWins += 1
+                elif goalsB > goalsA:
+                    teamBWins += 1
+                else:
+                    draws += 1
 
-        st.write(teamA, "win chance:", round((teamAWins / 1000) * 100, 2), "%")
-        st.write(teamB, "win chance:", round((teamBWins / 1000) * 100, 2), "%")
-        st.write("Draw chance:", round((draws / 1000) * 100, 2), "%")
+            st.write(teamA, "win chance:", round((teamAWins / 1000) * 100, 2), "%")
+            st.write(teamB, "win chance:", round((teamBWins / 1000) * 100, 2), "%")
+            st.write("Draw chance:", round((draws / 1000) * 100, 2), "%")
 
     with tab4:
         st.header("Group Stage Tables")
