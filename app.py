@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from world_cup import *
+
+def addFlagsToMatch(match):
+    for team, flag in teamFlags.items():
+        match = match.replace(team, flag + " " + team)
+
+    return match
+
 st.set_page_config(
     page_title="World Cup Simulator",
     page_icon="🏆",
@@ -111,7 +118,7 @@ if st.session_state.simulationDone:
                     border-radius: 10px;
                     margin-bottom: 10px;
                 ">
-                    {match}
+                    {addFlagsToMatch(match)}
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -128,7 +135,7 @@ if st.session_state.simulationDone:
                     border-radius: 10px;
                     margin-bottom: 10px;
                 ">
-                    {match}
+                    {addFlagsToMatch(match)}
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -145,7 +152,7 @@ if st.session_state.simulationDone:
                     border-radius: 10px;
                     margin-bottom: 10px;
                 ">
-                    {match}
+                    {addFlagsToMatch(match)}
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -162,7 +169,7 @@ if st.session_state.simulationDone:
                     border-radius: 10px;
                     margin-bottom: 10px;
                 ">
-                    {match}
+                    {addFlagsToMatch(match)}
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -179,7 +186,7 @@ if st.session_state.simulationDone:
                     border-radius: 10px;
                     margin-bottom: 10px;
                 ">
-                    {match}
+                    {addFlagsToMatch(match)}
                 </div>
                 """,
                 unsafe_allow_html=True
