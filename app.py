@@ -106,7 +106,7 @@ if st.session_state.simulationDone:
             st.markdown(
                 f"""
                 <div style="
-                    background-color: #1E222A;
+                    background-color: #D3D3D3;
                     padding: 10px;
                     border-radius: 10px;
                     margin-bottom: 10px;
@@ -123,7 +123,7 @@ if st.session_state.simulationDone:
             st.markdown(
                 f"""
                 <div style="
-                    background-color: #1E222A;
+                    background-color: #D3D3D3;
                     padding: 10px;
                     border-radius: 10px;
                     margin-bottom: 10px;
@@ -140,7 +140,7 @@ if st.session_state.simulationDone:
             st.markdown(
                 f"""
                 <div style="
-                    background-color: #1E222A;
+                    background-color: #D3D3D3;
                     padding: 10px;
                     border-radius: 10px;
                     margin-bottom: 10px;
@@ -157,7 +157,7 @@ if st.session_state.simulationDone:
             st.markdown(
                 f"""
                 <div style="
-                    background-color: #1E222A;
+                    background-color: #D3D3D3;
                     padding: 10px;
                     border-radius: 10px;
                     margin-bottom: 10px;
@@ -174,7 +174,7 @@ if st.session_state.simulationDone:
             st.markdown(
                 f"""
                 <div style="
-                    background-color: #FFFFFF;
+                    background-color: #D3D3D3;
                     padding: 10px;
                     border-radius: 10px;
                     margin-bottom: 10px;
