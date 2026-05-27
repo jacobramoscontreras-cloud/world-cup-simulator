@@ -122,7 +122,7 @@ teamFlags = {
     "Colombia": "🇨🇴",
     "Uzbekistan": "🇺🇿",
     "DR Congo": "🇨🇩",
-    "England": "🏴",
+    "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     "Croatia": "🇭🇷",
     "Panama": "🇵🇦",
     "Ghana": "🇬🇭"
