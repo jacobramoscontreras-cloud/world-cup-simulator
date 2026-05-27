@@ -227,6 +227,16 @@ if st.session_state.simulationDone:
         reverse=True
     )
 
+    mostlikelyTeam = sortedTeams[0][0]
+    mostLikelyWins = sortedTeams[0][1]
+    mostLikelyPercent = (mostLikelyWins / simulationCount) * 100
+
+    st.metric(
+        "Most Likely Champion",
+        teamFlags[mostLikelyTeam] + " " + mostlikelyTeam,
+        str(round(mostLikelyPercent, 2)) + "%"
+    )
+
     chartTeams = []
     chartPercents = []
 
