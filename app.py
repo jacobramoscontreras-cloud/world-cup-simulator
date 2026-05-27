@@ -38,6 +38,8 @@ h1 {
 if "simulationDone" not in st.session_state:
     st.session_state.simulationDone = False
 
+simulationCount = st.slider("Number of simulations", 100, 10000, 1000)
+
 st.title("🏆 World Cup Simulator")
 
 tab1, tab2, tab3, tab4 = st.tabs([
@@ -302,7 +304,10 @@ with tab1:
         with col3:
             st.metric("Strength", getTeamStrength(selectedTeam))
 
-        simulationCount = st.slider("Number of simulations", 100, 10000, 1000)
+        st.header("Match Predictor")
+
+        teamA = st.selectbox("Select Team A", list(teamStats.keys()))
+        teamB = st.selectbox("Select Team B", list(teamStats.keys()))
 
         if st.button("Predict Match"):
             teamAWins = 0
@@ -322,11 +327,6 @@ with tab1:
         st.write(teamA, "win chance:", round((teamAWins / 1000) * 100, 2), "%")
         st.write(teamB, "win chance:", round((teamBWins / 1000) * 100, 2), "%")
         st.write("Draw chance:", round((draws / 1000) * 100, 2), "%")
-
-        st.header("Match Predictor")
-
-        teamA = st.selectbox("Select Team A", list(teamStats.keys()))
-        teamB = st.selectbox("Select Team B", list(teamStats.keys()))
 
     with tab4:
         st.header("Group Stage Tables")
