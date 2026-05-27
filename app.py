@@ -195,7 +195,7 @@ if st.session_state.simulationDone:
 
         for team, stats in standings:
             rows.append({
-                "Team": team,
+                "Team": teamFlags[team] + " " + team,
                 "Pts": stats["points"],
                 "GF": stats["goalsFor"],
                 "GA": stats["goalsAgainst"],
