@@ -37,32 +37,6 @@ if "simulationDone" not in st.session_state:
 
 simulationCount = st.slider("Number of simulations", 100, 10000, 1000)
 
-st.markdown("""
-<div style="
-    background: linear-gradient(90deg, #0f172a, #1e3a8a);
-    padding: 35px;
-    border-radius: 20px;
-    text-align: center;
-    margin-bottom: 30px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.25);
-">
-    <h1 style="
-        color: white;
-        font-size: 60px;
-        margin-bottom: 10px;
-    ">
-        🏆 World Cup Simulator
-    </h1>
-
-    <p style="
-        color: #dbeafe;
-        font-size: 22px;
-    ">
-        Simulate tournaments, predict matches, and explore World Cup probabilities
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
 tab1, tab2, tab3, tab4 = st.tabs([
     "Simulator",
     "Probabilities",
