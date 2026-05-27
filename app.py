@@ -42,21 +42,26 @@ with st.sidebar:
         1000
     )
 
+    page = st.radio(
+        "Navigate",
+        [
+            "Simulator",
+            "Probabilities",
+            "Teams",
+            "Groups"
+        ]
+    )
+
     runSimulation = st.button("Run Simulator")
 
 if "simulationDone" not in st.session_state:
     st.session_state.simulationDone = False
 
-tab1, tab2, tab3, tab4 = st.tabs([
-    "Simulator",
-    "Probabilities",
-    "Teams",
-    "Groups"
-])
+
 
 groupStandings = {}
 
-with tab1:
+if page == "Simulator":
     if runSimulation:
         st.session_state.simulationDone = True
 
@@ -166,7 +171,7 @@ with tab1:
 
             st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
 
-    with tab2:    
+    elif page == "Probabilities":    
 
         st.header("📊 Championship Probabilities")
 
@@ -291,7 +296,7 @@ with tab1:
 
         st.dataframe(progressionDF, use_container_width=True, hide_index=True)
 
-    with tab3:
+    elif page == "Teams":
         selectedTeam = st.selectbox("Select a team", list(teamStats.keys()))
 
         st.subheader(teamFlags[selectedTeam] + " " + selectedTeam)
@@ -335,7 +340,7 @@ with tab1:
             st.write(teamB, "win chance:", round((teamBWins / 1000) * 100, 2), "%")
             st.write("Draw chance:", round((draws / 1000) * 100, 2), "%")
 
-    with tab4:
+    elif page == "Groups":
         st.header("Group Stage Tables")
         for groupName, standings in groupStandings.items():
             st.subheader(groupName)
