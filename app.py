@@ -98,17 +98,94 @@ if st.session_state.simulationDone:
     
     st.header("🧩 Tournament Bracket")
 
-    bracketData = {
-        "Round of 32": round32Matches + [""] * (16 - len(round32Matches)),
-        "Round of 16": round16Matches + [""] * (16 - len(round16Matches)),
-        "Quarterfinals": quarterFinalMatches + [""] * (16 - len(quarterFinalMatches)),
-        "Semifinals": semiFinalMatches + [""] * (16 - len(semiFinalMatches)),
-        "Final": finalMatch + [""] * (16 - len(finalMatch)),
-        "Champion": [champion] + [""] * 15
-    }
+    col1, col2, col3, col4, col5 = st.columns(5)
 
-    bracketDF = pd.DataFrame(bracketData)
-    st.dataframe(bracketDF, use_container_width=True, hide_index=True)
+    with col1:
+        st.subheader("Round of 32")
+        for match in round32Matches:
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: #1E222A;
+                    padding: 10px;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+                ">
+                    {match}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+    with col2:
+        st.subheader("Round of 16")
+        for match in round16Matches:
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: #1E222A;
+                    padding: 10px;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+                ">
+                    {match}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+    with col3:
+        st.subheader("Quarterfinals")
+        for match in quarterFinalMatches:
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: #1E222A;
+                    padding: 10px;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+                ">
+                    {match}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+    with col4:
+        st.subheader("Semifinals")
+        for match in semiFinalMatches:
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: #1E222A;
+                    padding: 10px;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+                ">
+                    {match}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+    with col5:
+        st.subheader("Final")
+        for match in finalMatch:
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: #1E222A;
+                    padding: 10px;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+                ">
+                    {match}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
 
     st.header("Group Stage Tables")
     for groupName, standings in groupStandings.items():
