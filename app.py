@@ -44,6 +44,8 @@ tab1, tab2, tab3, tab4 = st.tabs([
     "Groups"
 ])
 
+groupStandings = {}
+
 with tab1:
     if st.button("Run Simulator"):
         st.session_state.simulationDone = True
