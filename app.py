@@ -16,16 +16,29 @@ def addFlagsToMatch(match):
 
 st.markdown("""
 <div style="
-    background: linear-gradient(90deg, #0f172a, #1e3a8a);
-    padding: 35px;
-    border-radius: 20px;
-    text-align: center;
-    margin-bottom: 30px;
+    background-color:#0057B8;
+    padding:18px 30px;
+    border-radius:0px;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 ">
-    <h1 style="color: white; font-size: 60px;">🏆 World Cup Simulator</h1>
-    <p style="color: #dbeafe; font-size: 22px;">
-        Simulate tournaments, predict matches, and explore World Cup probabilities
-    </p>
+    <div style="font-size:28px; font-weight:bold;">FIFA WORLD CUP 2026™</div>
+    <div style="font-size:16px;">
+        Simulator &nbsp;&nbsp; Probabilities &nbsp;&nbsp; Teams &nbsp;&nbsp; Groups
+    </div>
+</div>
+
+<div style="
+    background:linear-gradient(90deg,#315BFF,#003BDB);
+    padding:35px;
+    margin-top:20px;
+    border-radius:18px;
+    color:white;
+">
+    <h1 style="font-size:46px; margin-bottom:5px;">🏆 FIFA World Cup 2026™</h1>
+    <p style="font-size:20px;">11 June - 19 July 2026</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -295,7 +308,22 @@ elif page == "📋 Groups":
         st.info("Click **Run Simulator** in the sidebar first.")
     else:
         for groupName, standings in st.session_state.groupStandings.items():
-            st.subheader(groupName)
+            st.markdown(
+                f"""
+                <div style="
+                    background-color:#061A5F;
+                    color:white;
+                    padding:14px;
+                    border-radius:12px 12px 0px 0px;
+                    font-size:22px;
+                    font-weight:bold;
+                    margin-top:25px;
+                ">
+                    {groupName}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
             rows = []
 
