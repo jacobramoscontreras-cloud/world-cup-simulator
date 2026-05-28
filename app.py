@@ -25,9 +25,6 @@ st.markdown("""
     align-items:center;
 ">
     <div style="font-size:28px; font-weight:bold;">FIFA WORLD CUP 2026™</div>
-    <div style="font-size:16px;">
-        Simulator &nbsp;&nbsp; Probabilities &nbsp;&nbsp; Teams &nbsp;&nbsp; Groups
-    </div>
 </div>
 
 <div style="
