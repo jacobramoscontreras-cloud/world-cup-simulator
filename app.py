@@ -3,17 +3,17 @@ import pandas as pd
 import plotly.express as px
 from world_cup import *
 
-def addFlagsToMatch(match):
-    for team, flag in teamFlags.items():
-        match = match.replace(team, flag + " " + team)
-
-    return match
-
 st.set_page_config(
     page_title="World Cup Simulator",
     page_icon="🏆",
     layout="wide"
 )
+
+def addFlagsToMatch(match):
+    for team, flag in teamFlags.items():
+        match = match.replace(team, flag + " " + team)
+    return match
+
 st.markdown("""
 <div style="
     background: linear-gradient(90deg, #0f172a, #1e3a8a);
@@ -21,11 +21,8 @@ st.markdown("""
     border-radius: 20px;
     text-align: center;
     margin-bottom: 30px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.25);
 ">
-    <h1 style="color: white; font-size: 60px; margin-bottom: 10px;">
-        🏆 World Cup Simulator
-    </h1>
+    <h1 style="color: white; font-size: 60px;">🏆 World Cup Simulator</h1>
     <p style="color: #dbeafe; font-size: 22px;">
         Simulate tournaments, predict matches, and explore World Cup probabilities
     </p>
@@ -33,7 +30,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 with st.sidebar:
-    st.header("Simulator Settings")
+    st.header("⚙️ Controls")
+
+    page = st.radio(
+        "Navigate",
+        ["🏆 Simulator", "📊 Probabilities", "⚽ Teams", "📋 Groups"]
+    )
 
     simulationCount = st.slider(
         "Number of simulations",
@@ -42,313 +44,253 @@ with st.sidebar:
         1000
     )
 
-    page = st.radio(
-        "Navigate",
-        [
-            "Simulator",
-            "Probabilities",
-            "Teams",
-            "Groups"
-        ]
-    )
-
-    runSimulation = st.button("Run Simulator")
-
-if "simulationDone" not in st.session_state:
-    st.session_state.simulationDone = False
-
-groupStandings = {}
+    runSimulation = st.button("🏆 Run Simulator")
 
 if runSimulation:
-    st.session_state.roundOf32, st.session_state.groupStandings = createRoundOf32()
+    resetUpsets()
 
-if page == "Simulator":
+    roundOf32, groupStandings = createRoundOf32()
 
-    if st.session_state.simulationDone:
-        resetUpsets()
+    roundOf16, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
+    quarterFinals, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
+    semiFinals, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
+    finalTeams, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
+    championList, finalMatch = playKnockoutRound(finalTeams, "Final")
 
-        roundOf32, groupStandings = createRoundOf32()
+    st.session_state.groupStandings = groupStandings
+    st.session_state.round32Matches = round32Matches
+    st.session_state.round16Matches = round16Matches
+    st.session_state.quarterFinalMatches = quarterFinalMatches
+    st.session_state.semiFinalMatches = semiFinalMatches
+    st.session_state.finalMatch = finalMatch
+    st.session_state.champion = championList[0]
 
-        roundOf16, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
-        quarterFinals, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
-        semiFinals, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
-        finalTeams, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
-        championList, finalMatch = playKnockoutRound(finalTeams, "Final")
+if page == "🏆 Simulator":
+    st.header("🧩 Tournament Bracket")
 
-        champion = championList[0]
-
+    if "champion" not in st.session_state:
+        st.info("Click **Run Simulator** in the sidebar first.")
+    else:
+        champion = st.session_state.champion
         st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
-    
-        st.header("🧩 Tournament Bracket")
 
         col1, col2, col3, col4, col5 = st.columns(5)
 
-        with col1:
-            st.subheader("Round of 32")
-            for match in round32Matches:
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #D3D3D3;
-                        padding: 10px;
-                        border-radius: 10px;
-                        margin-bottom: 10px;
-                    ">
-                        {addFlagsToMatch(match)}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-    
-        with col2:
-            st.subheader("Round of 16")
-            for match in round16Matches:
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #D3D3D3;
-                        padding: 10px;
-                        border-radius: 10px;
-                        margin-bottom: 10px;
-                    ">
-                        {addFlagsToMatch(match)}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+        rounds = [
+            ("Round of 32", st.session_state.round32Matches, col1),
+            ("Round of 16", st.session_state.round16Matches, col2),
+            ("Quarterfinals", st.session_state.quarterFinalMatches, col3),
+            ("Semifinals", st.session_state.semiFinalMatches, col4),
+            ("Final", st.session_state.finalMatch, col5),
+        ]
 
-        with col3:
-            st.subheader("Quarterfinals")
-            for match in quarterFinalMatches:
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #D3D3D3;
-                        padding: 10px;
-                        border-radius: 10px;
-                        margin-bottom: 10px;
-                    ">
-                        {addFlagsToMatch(match)}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+        for roundName, matches, col in rounds:
+            with col:
+                st.subheader(roundName)
 
-        with col4:
-            st.subheader("Semifinals")
-            for match in semiFinalMatches:
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #D3D3D3;
-                        padding: 10px;
-                        border-radius: 10px;
-                        margin-bottom: 10px;
-                    ">
-                        {addFlagsToMatch(match)}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                for match in matches:
+                    st.markdown(
+                        f"""
+                        <div style="
+                            background-color:#1E222A;
+                            padding:10px;
+                            border-radius:10px;
+                            margin-bottom:10px;
+                            color:white;
+                        ">
+                            {addFlagsToMatch(match)}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
-        with col5:
-            st.subheader("Final")
-            for match in finalMatch:
-                st.markdown(
-                    f"""
-                    <div style="
-                        background-color: #FFD700;
-                        padding: 10px;
-                        border-radius: 10px;
-                        margin-bottom: 10px;
-                    ">
-                        {addFlagsToMatch(match)}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+elif page == "📊 Probabilities":
+    st.header("📊 Championship Probabilities")
 
-            st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
+    championships = {}
 
-    elif page == "Probabilities":    
+    for i in range(simulationCount):
+        winner = simulateTournament()
+        championships[winner] = championships.get(winner, 0) + 1
 
-        st.header("📊 Championship Probabilities")
+    sortedTeams = sorted(
+        championships.items(),
+        key=lambda item: item[1],
+        reverse=True
+    )
 
-        championships = {}
+    mostLikelyTeam = sortedTeams[0][0]
+    mostLikelyWins = sortedTeams[0][1]
+    mostLikelyPercent = (mostLikelyWins / simulationCount) * 100
 
-        for i in range(simulationCount):
-            winner = simulateTournament()
-            championships[winner] = championships.get(winner, 0) + 1
+    st.metric(
+        "Most Likely Champion",
+        teamFlags[mostLikelyTeam] + " " + mostLikelyTeam,
+        str(round(mostLikelyPercent, 2)) + "%"
+    )
 
-        sortedTeams = sorted(
-            championships.items(),
-            key=lambda item: item[1],
-            reverse=True
-        )
+    chartData = pd.DataFrame({
+        "Team": [teamFlags[team] + " " + team for team, wins in sortedTeams],
+        "Championship Chance (%)": [
+            (wins / simulationCount) * 100 for team, wins in sortedTeams
+        ]
+    })
 
-        chartTeams = []
-        chartPercents = []
-
-        for team, wins in sortedTeams:
-            percent = (wins / simulationCount) * 100
-            chartTeams.append(team)
-            chartPercents.append(percent)
-
-        chartData = pd.DataFrame({
-            "Team": chartTeams,
-            "Championship Chance (%)": chartPercents
-        })
-
-        fig = px.bar(
+    fig = px.bar(
         chartData,
         x="Team",
         y="Championship Chance (%)",
         text="Championship Chance (%)",
-        color="Championship Chance (%)"
-        )
-
-        fig.update_traces(
-        texttemplate='%{text:.2f}%',
-        textposition='outside'
+        color="Championship Chance (%)",
+        title="World Cup Championship Probabilities"
     )
 
-        fig.update_layout(
-        title="World Cup Championship Probabilities",
-        xaxis_title="Team",
-        yaxis_title="Chance to Win (%)",
-        height=600
-        )
+    fig.update_traces(
+        texttemplate="%{text:.2f}%",
+        textposition="outside"
+    )
 
-        mostLikelyTeam = sortedTeams[0][0]
-        mostLikelyWins = sortedTeams[0][1]
-        mostLikelyPercent = (mostLikelyWins / simulationCount) * 100
+    st.plotly_chart(fig, use_container_width=True)
 
-        st.metric(
-            "Most Likely Champion",
-            teamFlags[mostLikelyTeam] + " " + mostLikelyTeam,
-            str(round(mostLikelyPercent, 2)) + "%"
-        )
+    st.header("Team Progression Probabilities")
 
-        st.plotly_chart(fig, use_container_width=True)
+    progressionCounts = {}
 
-        for team, wins in sortedTeams:
-            percent = (wins / simulationCount) * 100
-            st.write(teamFlags[team], team, "-", round(percent, 2), "%")
+    rounds = [
+        "Group Stage",
+        "Round of 32",
+        "Round of 16",
+        "Quarterfinals",
+        "Semifinals",
+        "Final",
+        "Champion"
+    ]
 
-        st.header("Team Progression Probabilities")
+    for team in teamStats.keys():
+        progressionCounts[team] = {}
 
-        progressionCounts = {}
+        for roundName in rounds:
+            progressionCounts[team][roundName] = 0
 
-        rounds = ["Group Stage","Round of 32", "Round of 16", "Quarterfinals", "Semifinals", "Final", "Champion"]
+    for i in range(simulationCount):
+        progression = simulateTournamentProgression()
 
-        for team in teamStats.keys():
-            progressionCounts[team] = {}
-
+        for team, finish in progression.items():
             for roundName in rounds:
-                progressionCounts[team][roundName] = 0
+                if rounds.index(finish) >= rounds.index(roundName):
+                    progressionCounts[team][roundName] += 1
 
-        for i in range(simulationCount):
-            progression = simulateTournamentProgression()
+    rows = []
 
-            for team, finish in progression.items():
-                for roundName in rounds:
-                    if rounds.index(finish) >= rounds.index(roundName):
-                        progressionCounts[team][roundName] += 1
-            
-        rows = []
+    for team, results in progressionCounts.items():
+        row = {"Team": teamFlags[team] + " " + team}
 
-        for team, results in progressionCounts.items():
-            row = {"Team": team}
+        for roundName in rounds:
+            row[roundName] = round((results[roundName] / simulationCount) * 100, 2)
 
-            for roundName in rounds:
-                row[roundName] = round((results[roundName] / simulationCount) * 100, 2)
+        rows.append(row)
 
-            rows.append(row)
+    progressionDF = pd.DataFrame(rows)
 
-        progressionDF = pd.DataFrame(rows)
+    selectedRound = st.selectbox(
+        "Choose round to chart",
+        ["Round of 32", "Round of 16", "Quarterfinals", "Semifinals", "Final", "Champion"]
+    )
 
-        selectedRound = st.selectbox(
-            "Choose round to chart",
-            ["Round of 32", "Round of 16", "Quarterfinals", "Semifinals", "Final", "Champion"]
-        )
+    chartProgression = progressionDF.sort_values(
+        by=selectedRound,
+        ascending=False
+    ).head(20)
 
-        chartProgression = progressionDF.sort_values(
-            by=selectedRound,
-            ascending=False
-        ).head(20)
+    fig2 = px.bar(
+        chartProgression,
+        x="Team",
+        y=selectedRound,
+        text=selectedRound,
+        color=selectedRound,
+        title=selectedRound + " Probability"
+    )
 
-        fig = px.bar(
-            chartProgression,
-            x="Team",
-            y=selectedRound,
-            text=selectedRound,
-            color=selectedRound,
-            title=selectedRound + " Probability"
-        )
+    fig2.update_traces(
+        texttemplate="%{text:.2f}%",
+        textposition="outside"
+    )
 
-        fig.update_traces(
-            texttemplate="%{text:.2f}%",
-            textposition="outside"
-        )
+    st.plotly_chart(fig2, use_container_width=True)
+    st.dataframe(progressionDF, use_container_width=True, hide_index=True)
 
-        st.plotly_chart(fig, use_container_width=True)
+elif page == "⚽ Teams":
+    st.header("⚽ Team Ratings")
 
-        st.dataframe(progressionDF, use_container_width=True, hide_index=True)
+    selectedTeam = st.selectbox("Select a team", list(teamStats.keys()))
 
-    elif page == "Teams":
-        selectedTeam = st.selectbox("Select a team", list(teamStats.keys()))
+    st.subheader(teamFlags[selectedTeam] + " " + selectedTeam)
 
-        st.subheader(teamFlags[selectedTeam] + " " + selectedTeam)
-        #st.write("Attack:", teamStats[selectedTeam]["attack"])
-        #st.write("Defense:", teamStats[selectedTeam]["defense"])
-        #st.write("Strength:", getTeamStrength(selectedTeam))
-        st.header("⚽ Team Ratings")
+    col1, col2, col3 = st.columns(3)
 
-        col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Attack", teamStats[selectedTeam]["attack"])
 
-        with col1:
-            st.metric("Attack", teamStats[selectedTeam]["attack"])
+    with col2:
+        st.metric("Defense", teamStats[selectedTeam]["defense"])
 
-        with col2:
-            st.metric("Defense", teamStats[selectedTeam]["defense"])
+    with col3:
+        st.metric("Strength", getTeamStrength(selectedTeam))
 
-        with col3:
-            st.metric("Strength", getTeamStrength(selectedTeam))
+    st.header("Match Predictor")
 
-        st.header("Match Predictor")
+    teamA = st.selectbox("Select Team A", list(teamStats.keys()))
+    teamB = st.selectbox("Select Team B", list(teamStats.keys()))
 
-        teamA = st.selectbox("Select Team A", list(teamStats.keys()))
-        teamB = st.selectbox("Select Team B", list(teamStats.keys()))
+    if st.button("Predict Match"):
+        teamAWins = 0
+        teamBWins = 0
+        draws = 0
 
-        if st.button("Predict Match"):
-            teamAWins = 0
-            teamBWins = 0
-            draws = 0
+        for i in range(1000):
+            goalsA, goalsB = playMatch(teamA, teamB)
 
-            for i in range(1000):
-                goalsA, goalsB = playMatch(teamA, teamB)
+            if goalsA > goalsB:
+                teamAWins += 1
+            elif goalsB > goalsA:
+                teamBWins += 1
+            else:
+                draws += 1
 
-                if goalsA > goalsB:
-                    teamAWins += 1
-                elif goalsB > goalsA:
-                    teamBWins += 1
-                else:
-                    draws += 1
+        st.write(teamFlags[teamA], teamA, "win chance:", round((teamAWins / 1000) * 100, 2), "%")
+        st.write(teamFlags[teamB], teamB, "win chance:", round((teamBWins / 1000) * 100, 2), "%")
+        st.write("Draw chance:", round((draws / 1000) * 100, 2), "%")
 
-            st.write(teamA, "win chance:", round((teamAWins / 1000) * 100, 2), "%")
-            st.write(teamB, "win chance:", round((teamBWins / 1000) * 100, 2), "%")
-            st.write("Draw chance:", round((draws / 1000) * 100, 2), "%")
+    st.header("Team Comparison")
 
-    elif page == "Groups":
-        st.header("Group Stage Tables")
-        if "groupStandings" in st.session_state:
-            for groupName, standings in st.session_state.groupStandings.items():
-                st.subheader(groupName)
-        else:
-            st.info("Run the simulator first.")
-        for groupName, standings in groupStandings.items():
+    compareTeam1 = st.selectbox("Compare Team 1", list(teamStats.keys()))
+    compareTeam2 = st.selectbox("Compare Team 2", list(teamStats.keys()))
+
+    comparisonData = pd.DataFrame({
+        "Category": ["Attack", "Defense", "Strength"],
+        teamFlags[compareTeam1] + " " + compareTeam1: [
+            teamStats[compareTeam1]["attack"],
+            teamStats[compareTeam1]["defense"],
+            getTeamStrength(compareTeam1)
+        ],
+        teamFlags[compareTeam2] + " " + compareTeam2: [
+            teamStats[compareTeam2]["attack"],
+            teamStats[compareTeam2]["defense"],
+            getTeamStrength(compareTeam2)
+        ]
+    })
+
+    st.dataframe(comparisonData, use_container_width=True, hide_index=True)
+
+elif page == "📋 Groups":
+    st.header("📋 Group Stage Tables")
+
+    if "groupStandings" not in st.session_state:
+        st.info("Click **Run Simulator** in the sidebar first.")
+    else:
+        for groupName, standings in st.session_state.groupStandings.items():
             st.subheader(groupName)
-        
+
             rows = []
 
             for team, stats in standings:
@@ -363,5 +305,3 @@ if page == "Simulator":
             groupDF = pd.DataFrame(rows)
 
             st.dataframe(groupDF, use_container_width=True, hide_index=True)
-
-
