@@ -45,9 +45,15 @@ with st.sidebar:
     )
 
     runSimulation = st.button("🏆 Run Simulator")
+    resetApp = st.button("🔄 Reset Simulator")
+
+if resetApp:
+    st.session_state.clear()
+    st.rerun()
 
 if runSimulation:
-    resetUpsets()
+    with st.spinner("Simulating tournament..."):
+        resetUpsets()
 
     roundOf32, groupStandings = createRoundOf32()
 
