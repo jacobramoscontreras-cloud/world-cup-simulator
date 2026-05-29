@@ -155,6 +155,7 @@ if page == "🏆 Simulator":
             <line x1="950" y1="590" x2="1020" y2="590" stroke="white" stroke-width="3"/>
             <line x1="1020" y1="390" x2="1020" y2="590" stroke="white" stroke-width="3"/>
             </svg>
+            <div style="
                 display:flex;
                 gap:55px;
                 align-items:flex-start;
