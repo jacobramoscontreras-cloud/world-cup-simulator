@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import streamlit.components.v1 as components
 from world_cup import *
 
 st.set_page_config(
@@ -164,7 +165,7 @@ if page == "🏆 Simulator":
     </div>
     """
 
-    st.markdown(bracketHTML, unsafe_allow_html=True)
+    components.html(bracketHTML, height=900, scrolling=True)
 
 
 elif page == "📊 Probabilities":
