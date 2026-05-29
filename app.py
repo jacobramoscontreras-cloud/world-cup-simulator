@@ -91,7 +91,7 @@ if page == "🏆 Simulator":
         st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
 
         def makeBracketColum(title, matches):
-            html = f"""
+            html += f"""
             <div style="min-width:260px;">
             <h2 style="color:white; text-align:center;">{title}</h2>
             """
