@@ -119,7 +119,7 @@ if page == "🏆 Simulator":
 
             return f"""
             <div style="
-                min-width:270px;
+                min-width:1600px;
                 margin-top:{marginTop}px;
             ">
                 <h2 style="
