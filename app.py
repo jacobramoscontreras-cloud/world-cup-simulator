@@ -119,7 +119,7 @@ if page == "🏆 Simulator":
 
             return f"""
             <div style="
-                min-width:1600px;
+                min-width:270px;
                 margin-top:{marginTop}px;
             ">
                 <h2 style="
@@ -142,6 +142,7 @@ if page == "🏆 Simulator":
             border-radius:24px;
             overflow-x:auto;
             min-height:850px;
+            min-width:1600px;
         ">
             <svg style="position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;">
             <line x1="270" y1="160" x2="340" y2="160" stroke="white" stroke-width="3"/>
