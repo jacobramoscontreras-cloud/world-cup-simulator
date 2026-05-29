@@ -131,39 +131,53 @@ if page == "🏆 Simulator":
         </style>
         """, unsafe_allow_html=True)
 
-        st.markdown("""
-        <div style='background:red;color:white;padding:20px'>
-        TEST
-        </div>
-        """, unsafe_allow_html=True)
-
         def bracketColumn(title, matches):
             cards = ""
 
             for match in matches:
                 cards += f"""
-                <div class="match-card">
+                <div style="
+                    background-color:#061A5F;
+                    color:white;
+                    padding:14px;
+                    border-radius:14px;
+                    margin-bottom:18px;
+                    box-shadow:0px 4px 10px rgba(0,0,0,0.25);
+                    border-left:6px solid #ff7a00;
+                    font-size:15px;
+                    line-height:1.5;
+                    font-family:Arial;
+                ">
                     {addFlagsToMatch(match)}
                 </div>
                 """
 
             return f"""
-            <div class="bracket-column">
-                <div class="bracket-title">{title}</div>
+            <div style="min-width:260px;">
+                <h2 style="color:white;text-align:center;font-family:Arial;">{title}</h2>
                 {cards}
             </div>
             """
         bracketHTML = f"""
-        <div class="bracket-container">
-        <div class="bracket-row">
-            {bracketColumn("Round of 32", st.session_state.round32Matches)}
-            {bracketColumn("Round of 16", st.session_state.round16Matches)}
-            {bracketColumn("Quarterfinals", st.session_state.quarterFinalMatches)}
-            {bracketColumn("Semifinals", st.session_state.semiFinalMatches)}
-            {bracketColumn("Final", st.session_state.finalMatch)}
+        <div style="
+            background:linear-gradient(135deg,#003BDB,#315BFF);
+            padding:30px;
+            border-radius:22px;
+            overflow-x:auto;
+        ">
+            <div style="
+                display:flex;
+                gap:28px;
+                align-items:flex-start;
+            ">
+                {bracketColumn("Round of 32", st.session_state.round32Matches)}
+                {bracketColumn("Round of 16", st.session_state.round16Matches)}
+                {bracketColumn("Quarterfinals", st.session_state.quarterFinalMatches)}
+                {bracketColumn("Semifinals", st.session_state.semiFinalMatches)}
+                {bracketColumn("Final", st.session_state.finalMatch)}
+            </div>
         </div>
-    </div>
-    """
+        """
 
     components.html(bracketHTML, height=900, scrolling=True)
 
