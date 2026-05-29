@@ -130,7 +130,7 @@ if page == "🏆 Simulator":
                 {makeBracketColum("R16", st.session_state.round16Matches)}
                 {makeBracketColum("QF", st.session_state.quarterFinalMatches)}
                 {makeBracketColum("SF", st.session_state.semiFinalMatches)}
-                {makeBracketColum("FINAL", [st.session_state.finalMatch])}
+                {makeBracketColum("FINAL", st.session_state.finalMatch)}
             </div>
         </div>
         """
