@@ -135,13 +135,26 @@ if page == "🏆 Simulator":
 
         bracketHTML = f"""
         <div style="
+            position:relative;
             background:linear-gradient(135deg,#003BDB,#315BFF);
             padding:35px;
             border-radius:24px;
             overflow-x:auto;
             min-height:850px;
         ">
-            <div style="
+            <svg style="position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;">
+            <line x1="270" y1="160" x2="340" y2="160" stroke="white" stroke-width="3"/>
+            <line x1="270" y1="230" x2="340" y2="230" stroke="white" stroke-width="3"/>
+            <line x1="340" y1="160" x2="340" y2="230" stroke="white" stroke-width="3"/>
+
+            <line x1="610" y1="230" x2="680" y2="230" stroke="white" stroke-width="3"/>
+            <line x1="610" y1="390" x2="680" y2="390" stroke="white" stroke-width="3"/>
+            <line x1="680" y1="230" x2="680" y2="390" stroke="white" stroke-width="3"/>
+
+            <line x1="950" y1="390" x2="1020" y2="390" stroke="white" stroke-width="3"/>
+            <line x1="950" y1="590" x2="1020" y2="590" stroke="white" stroke-width="3"/>
+            <line x1="1020" y1="390" x2="1020" y2="590" stroke="white" stroke-width="3"/>
+            </svg>
                 display:flex;
                 gap:55px;
                 align-items:flex-start;
