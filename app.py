@@ -130,6 +130,12 @@ if page == "🏆 Simulator":
         </style>
         """, unsafe_allow_html=True)
 
+        st.markdown("""
+        <div style='background:red;color:white;padding:20px'>
+        TEST
+        </div>
+        """, unsafe_allow_html=True)
+
         def bracketColumn(title, matches):
             cards = ""
 
