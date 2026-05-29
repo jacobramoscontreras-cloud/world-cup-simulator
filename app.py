@@ -97,6 +97,7 @@ if page == "🏆 Simulator":
                 background:#061A5F;
                 color:white;
                 width:250px;
+                min-height:55px;
                 padding:14px;
                 border-radius:14px;
                 margin-bottom:22px;
