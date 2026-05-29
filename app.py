@@ -91,95 +91,71 @@ if page == "🏆 Simulator":
         champion = st.session_state.champion
         st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
 
-        st.markdown("""
-        <style>
-        .bracket-container {
-            background: linear-gradient(135deg, #003BDB, #315BFF);
-            padding: 30px;
-            border-radius: 22px;
-            overflow-x: auto;
-        }
+        def matchCard(match):
+            return f"""
+            <div style="
+                background:#061A5F;
+                color:white;
+                width:250px;
+                padding:14px;
+                border-radius:14px;
+                margin-bottom:22px;
+                box-shadow:0px 4px 12px rgba(0,0,0,0.35);
+                border-left:7px solid #ff7a00;
+                font-family:Arial;
+                font-size:15px;
+                line-height:1.5;
+            ">
+                {addFlagsToMatch(match)}
+            </div>
+            """
 
-        .bracket-row {
-            display: flex;
-            gap: 28px;
-            align-items: flex-start;
-        }
-
-        .bracket-column {
-            min-width: 260px;
-        }
-
-        .bracket-title {
-            color: white;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 18px;
-        }
-
-        .match-card {
-            background-color: #061A5F;
-            color: white;
-            padding: 14px;
-            border-radius: 14px;
-            margin-bottom: 18px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
-            border-left: 6px solid #ff7a00;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-        def bracketColumn(title, matches):
+        def bracketColumn(title, matches, marginTop):
             cards = ""
 
             for match in matches:
-                cards += f"""
-                <div style="
-                    background-color:#061A5F;
-                    color:white;
-                    padding:14px;
-                    border-radius:14px;
-                    margin-bottom:18px;
-                    box-shadow:0px 4px 10px rgba(0,0,0,0.25);
-                    border-left:6px solid #ff7a00;
-                    font-size:15px;
-                    line-height:1.5;
-                    font-family:Arial;
-                ">
-                    {addFlagsToMatch(match)}
-                </div>
-                """
+                cards += matchCard(match)
 
             return f"""
-            <div style="min-width:260px;">
-                <h2 style="color:white;text-align:center;font-family:Arial;">{title}</h2>
+            <div style="
+                min-width:270px;
+                margin-top:{marginTop}px;
+            ">
+                <h2 style="
+                    color:white;
+                    text-align:center;
+                    font-family:Arial;
+                    margin-bottom:20px;
+                ">
+                    {title}
+                </h2>
                 {cards}
             </div>
             """
+
         bracketHTML = f"""
         <div style="
             background:linear-gradient(135deg,#003BDB,#315BFF);
-            padding:30px;
-            border-radius:22px;
+            padding:35px;
+            border-radius:24px;
             overflow-x:auto;
+            min-height:850px;
         ">
             <div style="
                 display:flex;
-                gap:28px;
+                gap:55px;
                 align-items:flex-start;
             ">
-                {bracketColumn("Round of 32", st.session_state.round32Matches)}
-                {bracketColumn("Round of 16", st.session_state.round16Matches)}
-                {bracketColumn("Quarterfinals", st.session_state.quarterFinalMatches)}
-                {bracketColumn("Semifinals", st.session_state.semiFinalMatches)}
-                {bracketColumn("Final", st.session_state.finalMatch)}
+                {bracketColumn("R32", st.session_state.round32Matches, 0)}
+                {bracketColumn("R16", st.session_state.round16Matches, 65)}
+                {bracketColumn("QF", st.session_state.quarterFinalMatches, 145)}
+                {bracketColumn("SF", st.session_state.semiFinalMatches, 245)}
+                {bracketColumn("FINAL", st.session_state.finalMatch, 365)}
             </div>
         </div>
         """
 
-    components.html(bracketHTML, height=900, scrolling=True)
+        components.html(bracketHTML, height=950, scrolling=True)
 
 
 elif page == "📊 Probabilities":
