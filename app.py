@@ -90,35 +90,52 @@ if page == "🏆 Simulator":
         champion = st.session_state.champion
         st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
 
-        col1, col2, col3, col4, col5 = st.columns(5)
+        def makeBracketColum(title, matches):
+            html = f"""
+            <div style="min-width:260px;">
+            <h2 style="color:white; text-align:center;">{title}</h2>
+            """
+            for match in matches:
+                html += f"""
+                <div style="
+                    background-color:#061A5F;
+                    color:white;
+                    padding:14px;
+                    border-radius:14px;
+                    margin-bottom:18px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+                    border-left: 6px solid #ff7a00;
+                    font-size:15px;
+                    line-height:1.5;
+                    ">
+                    {addFlagsToMatch(match)}
+                    </div>
+                    """
+            html += "</div>"
+            return html
+        
+        bracketHTML = f"""
+        <div style="
+        background: linear-gradient(135deg,#003BDB,#315BFF);
+        padding:30px;
+        border-radius:18px;
+        overflow-x:auto;
+        ">
+            <div style="
+                display:flex;
+                gap:28px;
+                align-items:flex-start;
+            ">
+                {makeBracketColum("R32", st.session_state.round32Matches)}
+                {makeBracketColum("R16", st.session_state.round16Matches)}
+                {makeBracketColum("QF", st.session_state.quarterFinalMatches)}
+                {makeBracketColum("SF", st.session_state.semiFinalMatches)}
+                {makeBracketColum("FINAL", [st.session_state.finalMatch])}
+            </div>
+        </div>
+        """
 
-        rounds = [
-            ("Round of 32", st.session_state.round32Matches, col1),
-            ("Round of 16", st.session_state.round16Matches, col2),
-            ("Quarterfinals", st.session_state.quarterFinalMatches, col3),
-            ("Semifinals", st.session_state.semiFinalMatches, col4),
-            ("Final", st.session_state.finalMatch, col5),
-        ]
-
-        for roundName, matches, col in rounds:
-            with col:
-                st.subheader(roundName)
-
-                for match in matches:
-                    st.markdown(
-                        f"""
-                        <div style="
-                            background-color:#1E222A;
-                            padding:10px;
-                            border-radius:10px;
-                            margin-bottom:10px;
-                            color:white;
-                        ">
-                            {addFlagsToMatch(match)}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
+        st.markdown(bracketHTML, unsafe_allow_html=True)
 
 elif page == "📊 Probabilities":
     st.header("📊 Championship Probabilities")
