@@ -28,7 +28,7 @@ st.markdown("""
 </div>
 
 <div style="
-    background:linear-gradient(90deg,#315BFF,#003BDB);
+    background-color:#0057B8;
     padding:35px;
     margin-top:20px;
     border-radius:18px;
