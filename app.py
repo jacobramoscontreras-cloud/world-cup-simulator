@@ -90,6 +90,77 @@ if page == "🏆 Simulator":
         champion = st.session_state.champion
         st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
 
+        st.markdown("""
+        <style>
+        .bracket-container {
+            background: linear-gradient(135deg, #003BDB, #315BFF);
+            padding: 30px;
+            border-radius: 22px;
+            overflow-x: auto;
+        }
+
+        .bracket-row {
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+        }
+
+        .bracket-column {
+            min-width: 260px;
+        }
+
+        .bracket-title {
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .match-card {
+            background-color: #061A5F;
+            color: white;
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+            border-left: 6px solid #ff7a00;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        def bracketColumn(title, matches):
+            cards = ""
+
+            for match in matches:
+                cards += f"""
+                <div class="match-card">
+                    {addFlagsToMatch(match)}
+                </div>
+                """
+
+            return f"""
+            <div class="bracket-column">
+                <div class="bracket-title">{title}</div>
+                {cards}
+            </div>
+            """
+        bracketHTML = f"""
+        <div class="bracket-container">
+        <div class="bracket-row">
+            {bracketColumn("Round of 32", st.session_state.round32Matches)}
+            {bracketColumn("Round of 16", st.session_state.round16Matches)}
+            {bracketColumn("Quarterfinals", st.session_state.quarterFinalMatches)}
+            {bracketColumn("Semifinals", st.session_state.semiFinalMatches)}
+            {bracketColumn("Final", st.session_state.finalMatch)}
+        </div>
+    </div>
+    """
+
+    st.markdown(bracketHTML, unsafe_allow_html=True)
+
+
 elif page == "📊 Probabilities":
     st.header("📊 Championship Probabilities")
 
