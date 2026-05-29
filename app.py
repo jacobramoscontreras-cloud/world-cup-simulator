@@ -81,55 +81,6 @@ if runSimulation:
     st.session_state.finalMatch = finalMatch
     st.session_state.champion = championList[0]
 
-def makeBracketColumn(title, matches):
-    html += f"""
-    <div style="min-width:260px;">
-        <h2 style="color:white; text-align:center;">{title}</h2>
-    """
-
-    for match in matches:
-        html += f"""
-        <div style="
-            background-color:#061A5F;
-            color:white;
-            padding:14px;
-            border-radius:14px;
-            margin-bottom:18px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-            border-left: 6px solid #ff7a00;
-            font-size:15px;
-            line-height:1.5;
-        ">
-            {addFlagsToMatch(match)}
-        </div>
-        """
-
-    html += "</div>"
-    return html
-    
-bracketHTML = f"""
-<div style="
-    background: linear-gradient(135deg,#003BDB,#315BFF);
-    padding:30px;
-    border-radius:18px;
-    overflow-x:auto;
-">
-    <div style="
-        display:flex;
-        gap:28px;
-        align-items:flex-start;
-    ">
-        {makeBracketColumn("R32", st.session_state.round32Matches)}
-        {makeBracketColumn("R16", st.session_state.round16Matches)}
-        {makeBracketColumn("QF", st.session_state.quarterFinalMatches)}
-        {makeBracketColumn("SF", st.session_state.semiFinalMatches)}
-        {makeBracketColumn("FINAL", st.session_state.finalMatch)}
-    </div>
-</div>
-"""
-
-st.markdown(bracketHTML, unsafe_allow_html=True)
-
 if page == "🏆 Simulator":
     st.header("🧩 Tournament Bracket")
 
