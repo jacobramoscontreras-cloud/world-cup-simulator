@@ -106,6 +106,7 @@ if page == "🏆 Simulator":
                 font-family:Arial;
                 font-size:15px;
                 line-height:1.5;
+                height:88px;
             ">
                 {addFlagsToMatch(match)}
             </div>
@@ -133,6 +134,42 @@ if page == "🏆 Simulator":
                 {cards}
             </div>
             """
+        
+        def connectorLines():
+            lines = ""
+
+            cardHeight = 88
+            cardGap = 22
+            columnGap = 55
+            cardWidth = 270
+
+            startX = 35 + cardWidth
+            startY = 95
+
+            roundSizes = [16, 8, 4, 2]
+            marginTops = [0, 65, 145, 245]
+
+            for roundIndex in range(len(roundSizes)):
+                games = roundSizes[roundIndex]
+
+                x1 = startX + roundIndex * (cardWidth + columnGap)
+                x2 = x1 + columnGap
+
+                yOffset = marginTops[roundIndex]
+
+                for i in range(0, games, 2):
+                    y1 = startY + yOffset + i * (cardHeight + cardGap) + cardHeight / 2
+                    y2 = startY + yOffset + (i + 1) * (cardHeight + cardGap) + cardHeight / 2
+                    middleY = (y1 + y2) / 2
+
+                    lines += f"""
+                    <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y1}" stroke="white" stroke-width="3"/>
+                    <line x1="{x1}" y1="{y2}" x2="{x2}" y2="{y2}" stroke="white" stroke-width="3"/>
+                    <line x1="{x2}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="white" stroke-width="3"/>
+                    <line x1="{x2}" y1="{middleY}" x2="{x2 + 55}" y2="{middleY}" stroke="white" stroke-width="3"/>
+                    """
+
+                return lines
 
         bracketHTML = f"""
         <div style="
@@ -145,17 +182,7 @@ if page == "🏆 Simulator":
             min-width:1600px;
         ">
             <svg style="position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;">
-            <line x1="270" y1="160" x2="340" y2="160" stroke="white" stroke-width="3"/>
-            <line x1="270" y1="230" x2="340" y2="230" stroke="white" stroke-width="3"/>
-            <line x1="340" y1="160" x2="340" y2="230" stroke="white" stroke-width="3"/>
-
-            <line x1="610" y1="230" x2="680" y2="230" stroke="white" stroke-width="3"/>
-            <line x1="610" y1="390" x2="680" y2="390" stroke="white" stroke-width="3"/>
-            <line x1="680" y1="230" x2="680" y2="390" stroke="white" stroke-width="3"/>
-
-            <line x1="950" y1="390" x2="1020" y2="390" stroke="white" stroke-width="3"/>
-            <line x1="950" y1="590" x2="1020" y2="590" stroke="white" stroke-width="3"/>
-            <line x1="1020" y1="390" x2="1020" y2="590" stroke="white" stroke-width="3"/>
+            {connectorLines()}
             </svg>
             <div style="
                 display:flex;
