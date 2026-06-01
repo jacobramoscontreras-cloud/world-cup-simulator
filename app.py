@@ -186,14 +186,14 @@ if page == "🏆 Simulator":
             </svg>
             <div style="
                 display:flex;
-                gap:55px;
+                gap:90px;
                 align-items:flex-start;
             ">
                 {bracketColumn("R32", st.session_state.round32Matches, 0)}
-                {bracketColumn("R16", st.session_state.round16Matches, 65)}
-                {bracketColumn("QF", st.session_state.quarterFinalMatches, 145)}
-                {bracketColumn("SF", st.session_state.semiFinalMatches, 245)}
-                {bracketColumn("FINAL", st.session_state.finalMatch, 365)}
+                {bracketColumn("R16", st.session_state.round16Matches, 95)}
+                {bracketColumn("QF", st.session_state.quarterFinalMatches, 220)}
+                {bracketColumn("SF", st.session_state.semiFinalMatches, 370)}
+                {bracketColumn("FINAL", st.session_state.finalMatch, 560)}
             </div>
         </div>
         """
