@@ -228,8 +228,8 @@ if page == "🏆 Simulator":
                 {bracketColumn("R16", st.session_state.round16Matches, 65)}
                 {bracketColumn("QF", st.session_state.quarterFinalMatches, 180)}
                 {bracketColumn("SF", st.session_state.semiFinalMatches, 320)}
-                {bracketColumn("FINAL", st.session_state.finalMatch, 480)}
-                {bracketColumn("3RD PLACE", st.session_state.thirdPlaceMatch, 560)}
+                {bracketColumn("3RD PLACE", st.session_state.thirdPlaceMatch, 480)}
+                {bracketColumn("FINAL", st.session_state.finalMatch, 560)}
             </div>
         </div>
         """
