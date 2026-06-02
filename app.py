@@ -86,7 +86,7 @@ if runSimulation:
 
     st.session_state.thirdPlaceMatch = thirdPlaceMatch
     st.session_state.thirdPlaceWinner = thirdPlaceList[0]
-    
+
     st.session_state.champion = championList[0]
 
 if page == "🏆 Simulator":
@@ -229,6 +229,7 @@ if page == "🏆 Simulator":
                 {bracketColumn("QF", st.session_state.quarterFinalMatches, 180)}
                 {bracketColumn("SF", st.session_state.semiFinalMatches, 320)}
                 {bracketColumn("FINAL", st.session_state.finalMatch, 480)}
+                {bracketColumn("3RD PLACE", st.session_state.thirdPlaceMatch, 560)}
             </div>
         </div>
         """
