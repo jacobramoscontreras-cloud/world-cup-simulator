@@ -89,8 +89,24 @@ if page == "🏆 Simulator":
         st.info("Click **Run Simulator** in the sidebar first.")
     else:
         champion = st.session_state.champion
-        st.success("🏆 Champion: " + teamFlags[champion] + " " + champion)
-
+        st.markdown(f"""
+        <div style="
+            background:linear-gradient(135deg,#FFD700,#FFB800);
+            padding:28px;
+            border-radius:22px;
+            text-align:center;
+            color:#111827;
+            font-weight:bold;
+            font-size:34px;
+            box-shadow:0 8px 25px rgba(0,0,0,.30);
+            margin-bottom:35px;
+        ">
+            WORLD CUP CHAMPION<br>
+            <span style="font-size:42px;">
+                {teamFlags[champion]} {champion}
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
         def matchCard(match):
             return f"""
             <div style="
