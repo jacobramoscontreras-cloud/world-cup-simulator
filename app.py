@@ -91,7 +91,7 @@ if page == "🏆 Simulator":
         champion = st.session_state.champion
         st.markdown(f"""
         <div style="
-            background:linear-gradient(135deg,#FFD700,#FFB800);
+            background:linear-gradient(135deg,#D4AF37,#D4AF37);
             padding:28px;
             border-radius:22px;
             text-align:center;
