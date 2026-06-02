@@ -292,6 +292,11 @@ def playKnockoutRound(teams, roundName):
             penaltyWinner = random.choice([team1, team2])
             winner = penaltyWinner
 
+            if winner == team1:
+                loser = team2
+            else:
+                loser = team1
+
             matchResults.append(
                 team1 + " vs " + team2 +
                 " : " + str(team1Goals) + " - " + str(team2Goals) +
