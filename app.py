@@ -107,6 +107,21 @@ if page == "🏆 Simulator":
             </span>
         </div>
         """, unsafe_allow_html=True)
+
+        col1, col2, col3, col4 = st.columns(4)
+
+        with col1:
+            st.metric("Teams", "48")
+
+        with col2:
+            st.metric("Knockout Matches", "31")
+
+        with col3:
+            st.metric("Champion", teamFlags[champion] + " " + champion)
+
+        with col4:
+            st.metric("Simulations", simulationCount)
+
         def matchCard(match):
             return f"""
             <div style="
