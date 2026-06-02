@@ -280,6 +280,7 @@ def createRoundOf32():
 def playKnockoutRound(teams, roundName):
     winners = []
     matchResults = []
+    losers = []
 
     for i in range(0, len(teams), 2):
         team1 = teams[i]
@@ -310,8 +311,9 @@ def playKnockoutRound(teams, roundName):
             )
 
         winners.append(winner)
+        losers.append(loser)
 
-    return winners, matchResults
+    return winners, losers, matchResults
 
 def resetUpsets():
     global upsetWins
