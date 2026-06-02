@@ -68,11 +68,14 @@ if runSimulation:
 
     roundOf32, groupStandings = createRoundOf32()
 
-    roundOf16, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
-    quarterFinals, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
-    semiFinals, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
-    finalTeams, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
-    championList, finalMatch = playKnockoutRound(finalTeams, "Final")
+    roundOf16, roundOf32Losers, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
+    quarterFinals, round16Losers, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
+    semiFinals, quarterFinalLosers, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
+    finalTeams, semiFinalLosers, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
+
+    thirdPlaceList, thirdPlaceLosers, thirdPlaceMatch = playKnockoutRound(semiFinalLosers, "Third Place Match")
+
+    championList, finalLosers, finalMatch = playKnockoutRound(finalTeams, "Final")
 
     st.session_state.groupStandings = groupStandings
     st.session_state.round32Matches = round32Matches
@@ -80,6 +83,10 @@ if runSimulation:
     st.session_state.quarterFinalMatches = quarterFinalMatches
     st.session_state.semiFinalMatches = semiFinalMatches
     st.session_state.finalMatch = finalMatch
+
+    st.session_state.thirdPlaceMatch = thirdPlaceMatch
+    st.session_state.thirdPlaceWinner = thirdPlaceList[0]
+    
     st.session_state.champion = championList[0]
 
 if page == "🏆 Simulator":

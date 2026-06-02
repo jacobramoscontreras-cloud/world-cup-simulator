@@ -279,6 +279,7 @@ def createRoundOf32():
 
 def playKnockoutRound(teams, roundName):
     winners = []
+    losers = []
     matchResults = []
 
     for i in range(0, len(teams), 2):
@@ -300,8 +301,10 @@ def playKnockoutRound(teams, roundName):
         else:
             if team1Goals > team2Goals:
                 winner = team1
+                loser = team2
             else:
                 winner = team2
+                loser = team1
 
             matchResults.append(
                 team1 + " " + str(team1Goals) +
@@ -310,8 +313,9 @@ def playKnockoutRound(teams, roundName):
             )
 
         winners.append(winner)
+        losers.append(loser)
 
-    return winners, matchResults
+    return winners, losers, matchResults
 
 def resetUpsets():
     global upsetWins
