@@ -340,23 +340,23 @@ def simulateTournamentProgression():
     for team in roundOf32:
         progression[team] = "Round of 32"
 
-    roundOf16, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
+    roundOf16, round32Losers, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
     for team in roundOf16:
         progression[team] = "Round of 16"
 
-    quarterFinals, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
+    quarterFinals, round16Losers, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
     for team in quarterFinals:
         progression[team] = "Quarterfinals"
 
-    semiFinals, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
+    semiFinals, quarterFinalLosers, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
     for team in semiFinals:
         progression[team] = "Semifinals"
 
-    finalTeams, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
+    finalTeams, semiFinalLosers, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
     for team in finalTeams:
         progression[team] = "Final"
 
-    championList, finalMatch = playKnockoutRound(finalTeams, "Final")
+    championList, finalLosers, finalMatch = playKnockoutRound(finalTeams, "Final")
     champion = championList[0]
 
     progression[champion] = "Champion"
@@ -369,10 +369,10 @@ def simulateTournament():
 
     roundOf32, _ = createRoundOf32()
 
-    roundOf16, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
-    quarterFinals, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
-    semiFinals, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
-    finalTeams, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
-    championList, finalMatch = playKnockoutRound(finalTeams, "Final")
+    roundOf16, round32Losers, round32Matches = playKnockoutRound(roundOf32, "Round of 32")
+    quarterFinals, round16Losers, round16Matches = playKnockoutRound(roundOf16, "Round of 16")
+    semiFinals, quarterFinalLosers, quarterFinalMatches = playKnockoutRound(quarterFinals, "Quarterfinals")
+    finalTeams, semiFinalLosers, semiFinalMatches = playKnockoutRound(semiFinals, "Semifinals")
+    championList, finalLosers, finalMatch = playKnockoutRound(finalTeams, "Final")
 
     return championList[0]
