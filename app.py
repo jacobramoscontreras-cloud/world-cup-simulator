@@ -457,75 +457,126 @@ elif page == "📋 Groups":
 elif page == "Your Predictions":
     st.header("Build your own World Cup Bracket")
 
-    if "predictionRoundOf32" not in st.session_state:
-        predictionRoundOf32, predictionGroups = createRoundOf32()
-        st.session_state.predictionRoundOf32 = predictionRoundOf32
+    def pickGroupStage():
+        groupStandings = {}
+        firstPlaceTeams = []
+        secondPlaceTeams = []
+        thirdPlaceTeams = []
 
-    def userPickRound(teams, roundName):
-        st.subheader(roundName)
+        for groupName, groupTeams in groups.items():
+            st.subheader(groupName)
 
-        winners = []
-
-        for i in range(0, len(teams), 2):
-            team1 = teams[i]
-            team2 = teams[i + 1]
-
-            winner = st.radio(
-                teamFlags[team1] + " " + team1 + teamFlags[team2] + " " + team2,
-                [team1, team2],
-                key=roundName + team1 + team2
+            first = st.selectbox(
+                groupName + " - 1st Place",
+                groupTeams,
+                key=groupName + "_first"
             )
 
-            winners.append(winner)
+            secondOptions = [team for team in groupTeams if team != first]
 
-        return winners
+            second = st.selectbox(
+                groupName + " - 2nd Place",
+                secondOptions,
+                key=groupName + "_second"
+            )
+
+            thirdOptions = [
+                team for team in groupTeams
+                if team != first and team != second
+            ]
+
+            third = st.selectbox(
+                groupName + " - 3rd Place",
+                thirdOptions,
+                key=groupName + "_third"
+            )
+
+            firstPlaceTeams.append(first)
+            secondPlaceTeams.append(second)
+
+            thirdPlaceTeams.append({
+                "team": third,
+                "group": groupName
+            })
+
+            groupStandings[groupName] = [first, second, third]
+
+        return firstPlaceTeams, secondPlaceTeams, thirdPlaceTeams, groupStandings
     
-    roundOf16 = userPickRound(
-        st.session_state.predictionRoundOf32,
-        "Round of 32"
+    firstPlaceTeams, secondPlaceTeams, thirdPlaceTeams, userGroupStandings = pickGroupStage()
+
+    st.header("Best 8 Third Placed Teams")
+
+    thirdPlaceTeams = [item["team"] for item in thirdPlaceTeams]
+
+    selectedThirdPlaceTeams = st.multiselect(
+        "Select the 8 best third placed teams to advance to the knockout stage",
+        thirdPlaceTeams,
+        default=thirdPlaceTeams[:8]
     )
 
-    quarterFinals = userPickRound(
-        roundOf16,
-        "Round of 16"
-    )
+    if len(selectedThirdPlaceTeams) != 8:
+        st.warning("Please select exactly 8 third placed teams.")
+    else:
+        predictionRoundOf32 = []
 
-    semiFinals = userPickRound(
-        quarterFinals,
-        "Quarterfinals"
-    )
+        otherQualifiedTeams = secondPlaceTeams + selectedThirdPlaceTeams
 
-    finalTeams = userPickRound(
-        semiFinals,
-        "Semifinals"
-    )
+        random.shuffle(firstPlaceTeams)
+        random.shuffle(otherQualifiedTeams)
 
-    championList = userPickRound(
-        finalTeams,
-        "Final"
-    )
+        for i in range(12):
+            predictionRoundOf32.append(firstPlaceTeams[i])
+            predictionRoundOf32.append(otherQualifiedTeams[i])
 
-    champion = championList[0]
+        remainingTeams = otherQualifiedTeams[12:]
 
-    st.markdown(f"""
-    <div style="
-        background:linear-gradient(135deg,#D4AF37,#D4AF37);
-        padding:28px;
-        border-radius:22px;
-        text-align:center;
-        color:#111827;
-        font-weight:bold;
-        font-size:34px;
-        box-shadow:0 8px 25px rgba(0,0,0,.30);
-        margin-top:35px;
-    ">
-        YOUR PREDICTED CHAMPION<br>
-        <span style="font-size:42px;">
-            {teamFlags[champion]} {champion}
-        </span>
-    </div>
-    """, unsafe_allow_html=True)
+        for i in range(0, len(remainingTeams), 2):
+            predictionRoundOf32.append(remainingTeams[i])
+            predictionRoundOf32.append(remainingTeams[i + 1])
 
-    if st.button("Reset My Bracket"):
-        del st.session_state.predictionRoundOf32
-        st.rerun()
+        def userPickRound(teams, roundName):
+            st.subheader(roundName)
+
+            winners = []
+
+            for i in range(0, len(teams), 2):
+                team1 = teams[i]
+                team2 = teams[i + 1]
+
+                winner = st.radio(
+                    teamFlags[team1] + " " + team1 + " vs " + teamFlags[team2] + " " + team2,
+                    [team1, team2],
+                    key=roundName + team1 + team2
+                )
+
+                winners.append(winner)
+
+            return winners
+        
+        roundOf16 = userPickRound(predictionRoundOf32, "Round of 32")
+        quarterFinals = userPickRound(roundOf16, "Round of 16")
+        semiFinals = userPickRound(quarterFinals, "Quarterfinals")
+        finalTeams = userPickRound(semiFinals, "Semifinals")
+        championList = userPickRound(finalTeams, "Final")
+
+        champion = championList[0]
+
+        st.markdown(f"""
+        <div style="
+            background:linear-gradient(135deg,#D4AF37,#D4AF37);
+            padding:28px;
+            border-radius:22px;
+            text-align:center;
+            color:#111827;
+            font-weight:bold;
+            font-size:34px;
+            box-shadow:0 8px 25px rgba(0,0,0,.30);
+            margin-top:30px;
+        ">
+            YOUR PREDICTED CHAMPION<br>
+            <span style="font-size:42px;">
+                {teamFlags[champion]} {champion}
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
