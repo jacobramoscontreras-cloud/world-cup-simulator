@@ -45,7 +45,7 @@ with st.sidebar:
 
     page = st.radio(
         "Navigate",
-        ["🏆 Simulator", "📊 Probabilities", "⚽ Teams", "📋 Groups"]
+        ["🏆 Simulator", "📊 Probabilities", "⚽ Teams", "📋 Groups", "Your Predictions"]
     )
 
     simulationCount = st.slider(
@@ -453,3 +453,79 @@ elif page == "📋 Groups":
             groupDF = pd.DataFrame(rows)
 
             st.dataframe(groupDF, use_container_width=True, hide_index=True)
+
+elif page == "Your Predictions":
+    st.header("Build your own World Cup Bracket")
+
+    if "predictionRoundOf32" not in st.session_state:
+        predictionRoundOf32, predictionGroups = createRoundOf32()
+        st.session_state.predictionRoundOf32 = predictionRoundOf32
+
+    def userPickRound(teams, roundName):
+        st.subheader(roundName)
+
+        winners = []
+
+        for i in range(0, len(teams), 2):
+            team1 = teams[i]
+            team2 = teams[i + 1]
+
+            winner = st.radio(
+                teamFlags[team1] + " " + team1 + teamFlags[team2] + " " + team2,
+                [team1, team2],
+                key=roundName + team1 + team2
+            )
+
+            winners.append(winner)
+
+        return winners
+    
+    roundOf16 = userPickRound(
+        st.session_state.predictionRoundOf32,
+        "Round of 32"
+    )
+
+    quarterFinals = userPickRound(
+        roundOf16,
+        "Round of 16"
+    )
+
+    semiFinals = userPickRound(
+        quarterFinals,
+        "Quarterfinals"
+    )
+
+    finalTeams = userPickRound(
+        semiFinals,
+        "Semifinals"
+    )
+
+    championList = userPickRound(
+        finalTeams,
+        "Final"
+    )
+
+    champion = championList[0]
+
+    st.markdown(f"""
+    <div style="
+        background:linear-gradient(135deg,#D4AF37,#D4AF37);
+        padding:28px;
+        border-radius:22px;
+        text-align:center;
+        color:#111827;
+        font-weight:bold;
+        font-size:34px;
+        box-shadow:0 8px 25px rgba(0,0,0,.30);
+        margin-top:35px;
+    ">
+        YOUR PREDICTED CHAMPION<br>
+        <span style="font-size:42px;">
+            {teamFlags[champion]} {champion}
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("Reset My Bracket"):
+        del st.session_state.predictionRoundOf32
+        st.rerun()
