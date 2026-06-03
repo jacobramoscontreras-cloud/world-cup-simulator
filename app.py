@@ -172,6 +172,69 @@ if page == "🏆 Simulator":
                 {cards}
             </div>
             """
+        
+        def connectorLines():
+            lines = ""
+
+            cardHeight = 88
+            cardGap = 22
+            columnGap = 55
+            cardWidth = 270
+
+            startX = 35 + cardWidth
+            startY = 95
+
+            roundSizes = [16, 8, 4, 2]
+            marginTops = [0, 65, 145, 245]
+
+            for roundIndex in range(len(roundSizes)):
+                games = roundSizes[roundIndex]
+
+                x1 = startX + roundIndex * (cardWidth + columnGap)
+                x2 = x1 + columnGap
+
+                yOffset = marginTops[roundIndex]
+
+                for i in range(0, games, 2):
+                    y1 = startY + yOffset + i * (cardHeight + cardGap) + cardHeight / 2
+                    y2 = startY + yOffset + (i + 1) * (cardHeight + cardGap) + cardHeight / 2
+                    middleY = (y1 + y2) / 2
+
+                    lines += f"""
+                    <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y1}" stroke="white" stroke-width="3"/>
+                    <line x1="{x1}" y1="{y2}" x2="{x2}" y2="{y2}" stroke="white" stroke-width="3"/>
+                    <line x1="{x2}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="white" stroke-width="3"/>
+                    <line x1="{x2}" y1="{middleY}" x2="{x2 + 55}" y2="{middleY}" stroke="white" stroke-width="3"/>
+                    """
+
+                return lines
+
+        bracketHTML = f"""
+        <div style="
+            position:relative;
+            background:linear-gradient(135deg,#003BDB,#315BFF);
+            padding:35px;
+            border-radius:24px;
+            overflow-x:auto;
+            min-height:850px;
+            min-width:1600px;
+        ">
+            <div style="
+                display:flex;
+                gap:90px;
+                align-items:flex-start;
+            ">
+                {bracketColumn("R32", st.session_state.round32Matches, 0)}  
+                {bracketColumn("R16", st.session_state.round16Matches, 65)}
+                {bracketColumn("QF", st.session_state.quarterFinalMatches, 180)}
+                {bracketColumn("SF", st.session_state.semiFinalMatches, 320)}
+                {bracketColumn("3RD PLACE", st.session_state.thirdPlaceMatch, 480)}
+                {bracketColumn("FINAL", st.session_state.finalMatch, 560)}
+            </div>
+        </div>
+        """
+
+        components.html(bracketHTML, height=950, scrolling=True)
 
 
 elif page == "📊 Probabilities":
