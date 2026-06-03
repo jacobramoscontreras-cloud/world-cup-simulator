@@ -121,7 +121,7 @@ if page == "🏆 Simulator":
             st.metric("Teams", "48")
 
         with col2:
-            st.metric("Knockout Matches", "31")
+            st.metric("Knockout Matches", "32")
 
         with col3:
             st.metric("Champion", teamFlags[champion] + " " + champion)
