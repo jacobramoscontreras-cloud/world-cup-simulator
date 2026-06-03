@@ -518,22 +518,28 @@ elif page == "Your Predictions":
     if len(selectedThirdPlaceTeams) != 8:
         st.warning("Please select exactly 8 third placed teams.")
     else:
-        predictionRoundOf32 = []
+        if "userPredictionRoundOf32" not in st.session_state:
 
-        otherQualifiedTeams = secondPlaceTeams + selectedThirdPlaceTeams
+            predictionRoundOf32 = []
 
-        random.shuffle(firstPlaceTeams)
-        random.shuffle(otherQualifiedTeams)
+            otherQualifiedTeams = secondPlaceTeams + selectedThirdPlaceTeams
 
-        for i in range(12):
-            predictionRoundOf32.append(firstPlaceTeams[i])
-            predictionRoundOf32.append(otherQualifiedTeams[i])
+            random.shuffle(firstPlaceTeams)
+            random.shuffle(otherQualifiedTeams)
 
-        remainingTeams = otherQualifiedTeams[12:]
+            for i in range(12):
+                predictionRoundOf32.append(firstPlaceTeams[i])
+                predictionRoundOf32.append(otherQualifiedTeams[i])
 
-        for i in range(0, len(remainingTeams), 2):
-            predictionRoundOf32.append(remainingTeams[i])
-            predictionRoundOf32.append(remainingTeams[i + 1])
+            remainingTeams = otherQualifiedTeams[12:]
+
+            for i in range(0, len(remainingTeams), 2):
+                predictionRoundOf32.append(remainingTeams[i])
+                predictionRoundOf32.append(remainingTeams[i + 1])
+
+            st.session_state.userPredictionRoundOf32 = predictionRoundOf32
+
+        predictionRoundOf32 = st.session_state.userPredictionRoundOf32
 
         def userPickRound(teams, roundName):
             st.subheader(roundName)
@@ -580,3 +586,8 @@ elif page == "Your Predictions":
             </span>
         </div>
         """, unsafe_allow_html=True)
+
+        if st.button("🔄 Reset My Bracket"):
+            if "userPredictionRoundOf32" in st.session_state:
+                del st.session_state.userPredictionRoundOf32
+            st.rerun()
