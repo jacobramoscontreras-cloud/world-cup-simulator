@@ -518,28 +518,42 @@ elif page == "Your Predictions":
     if len(selectedThirdPlaceTeams) != 8:
         st.warning("Please select exactly 8 third placed teams.")
     else:
-        if "userPredictionRoundOf32" not in st.session_state:
 
-            predictionRoundOf32 = []
+        if st.button("Lock My Group Stage Picks"):
 
-            otherQualifiedTeams = secondPlaceTeams + selectedThirdPlaceTeams
+            if "usePredictionRoundOf32" in st.session_state:
+                del st.session_state.userPredictionRoundOf32
 
-            random.shuffle(firstPlaceTeams)
-            random.shuffle(otherQualifiedTeams)
+            st.session_state.lockedPredictionGroups = True 
+            st.rerun()
 
-            for i in range(12):
-                predictionRoundOf32.append(firstPlaceTeams[i])
-                predictionRoundOf32.append(otherQualifiedTeams[i])
+        if "lockedPredictionGroups" in st.session_state:
 
-            remainingTeams = otherQualifiedTeams[12:]
+            if "userPredictionRoundOf32" not in st.session_state:
 
-            for i in range(0, len(remainingTeams), 2):
-                predictionRoundOf32.append(remainingTeams[i])
-                predictionRoundOf32.append(remainingTeams[i + 1])
+                predictionRoundOf32 = []
 
-            st.session_state.userPredictionRoundOf32 = predictionRoundOf32
+                otherQualifiedTeams = secondPlaceTeams + selectedThirdPlaceTeams
 
-        predictionRoundOf32 = st.session_state.userPredictionRoundOf32
+                random.shuffle(firstPlaceTeams)
+                random.shuffle(otherQualifiedTeams)
+
+                for i in range(12):
+                    predictionRoundOf32.append(firstPlaceTeams[i])
+                    predictionRoundOf32.append(otherQualifiedTeams[i])
+
+                remainingTeams = otherQualifiedTeams[12:]
+
+                for i in range(0, len(remainingTeams), 2):
+                    predictionRoundOf32.append(remainingTeams[i])
+                    predictionRoundOf32.append(remainingTeams[i + 1])
+
+                st.session_state.userPredictionRoundOf32 = predictionRoundOf32
+
+            predictionRoundOf32 = st.session_state.userPredictionRoundOf32
+
+        else:
+            st.info("Choose your group standings and 8 third placed teams, then click **Lock My Group Stage Picks** to proceed to the knockout stage predictions.")
 
         def userPickRound(teams, roundName):
             st.subheader(roundName)
