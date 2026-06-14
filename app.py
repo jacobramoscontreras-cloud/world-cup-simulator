@@ -574,11 +574,11 @@ elif page == "Your Predictions":
 
             return winners
         
-        roundOf16 = userPickRound(predictionRoundOf32, "Round of 32")
-        quarterFinals = userPickRound(roundOf16, "Round of 16")
-        semiFinals = userPickRound(quarterFinals, "Quarterfinals")
-        finalTeams = userPickRound(semiFinals, "Semifinals")
-        championList = userPickRound(finalTeams, "Final")
+            roundOf16 = userPickRound(predictionRoundOf32, "Round of 32")
+            quarterFinals = userPickRound(roundOf16, "Round of 16")
+            semiFinals = userPickRound(quarterFinals, "Quarterfinals")
+            finalTeams = userPickRound(semiFinals, "Semifinals")
+            championList = userPickRound(finalTeams, "Final")
 
         champion = championList[0]
 
