@@ -525,7 +525,6 @@ elif page == "Your Predictions":
                 del st.session_state.userPredictionRoundOf32
 
             st.session_state.lockedPredictionGroups = True 
-            st.rerun()
 
         if "lockedPredictionGroups" in st.session_state:
 
