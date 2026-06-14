@@ -579,27 +579,27 @@ elif page == "Your Predictions":
             semiFinals = userPickRound(quarterFinals, "Quarterfinals")
             finalTeams = userPickRound(semiFinals, "Semifinals")
             championList = userPickRound(finalTeams, "Final")
+            if len(championList) > 0:
+                champion = championList[0]
 
-        champion = championList[0]
-
-        st.markdown(f"""
-        <div style="
-            background:linear-gradient(135deg,#D4AF37,#D4AF37);
-            padding:28px;
-            border-radius:22px;
-            text-align:center;
-            color:#111827;
-            font-weight:bold;
-            font-size:34px;
-            box-shadow:0 8px 25px rgba(0,0,0,.30);
-            margin-top:30px;
-        ">
-            YOUR PREDICTED CHAMPION<br>
-            <span style="font-size:42px;">
-                {teamFlags[champion]} {champion}
-            </span>
-        </div>
-        """, unsafe_allow_html=True)
+            st.markdown(f"""
+            <div style="
+                background:linear-gradient(135deg,#D4AF37,#D4AF37);
+                padding:28px;
+                border-radius:22px;
+                text-align:center;
+                color:#111827;
+                font-weight:bold;
+                font-size:34px;
+                box-shadow:0 8px 25px rgba(0,0,0,.30);
+                margin-top:30px;
+            ">
+                YOUR PREDICTED CHAMPION<br>
+                <span style="font-size:42px;">
+                    {teamFlags[champion]} {champion}
+                </span>
+            </div>
+            """, unsafe_allow_html=True)
 
         if st.button("🔄 Reset My Bracket"):
             if "userPredictionRoundOf32" in st.session_state:
