@@ -458,7 +458,6 @@ elif page == "Your Predictions":
     st.header("Build your own World Cup Bracket")
 
     def pickGroupStage():
-        groupStandings = {}
         firstPlaceTeams = []
         secondPlaceTeams = []
         thirdPlaceTeams = []
@@ -493,21 +492,13 @@ elif page == "Your Predictions":
 
             firstPlaceTeams.append(first)
             secondPlaceTeams.append(second)
+            thirdPlaceTeams.append(third)
 
-            thirdPlaceTeams.append({
-                "team": third,
-                "group": groupName
-            })
-
-            groupStandings[groupName] = [first, second, third]
-
-        return firstPlaceTeams, secondPlaceTeams, thirdPlaceTeams, groupStandings
+            return firstPlaceTeams, secondPlaceTeams, thirdPlaceTeams
     
-    firstPlaceTeams, secondPlaceTeams, thirdPlaceTeams, userGroupStandings = pickGroupStage()
+    firstPlaceTeams, secondPlaceTeams, thirdPlaceTeams = pickGroupStage()
 
     st.header("Best 8 Third Placed Teams")
-
-    thirdPlaceTeams = [item["team"] for item in thirdPlaceTeams]
 
     selectedThirdPlaceTeams = st.multiselect(
         "Select the 8 best third placed teams to advance to the knockout stage",
@@ -520,16 +511,17 @@ elif page == "Your Predictions":
     else:
 
         if st.button("Lock My Group Stage Picks"):
-
-            if "usePredictionRoundOf32" in st.session_state:
+            if "userPredictionRoundOf32" in st.session_state:
                 del st.session_state.userPredictionRoundOf32
 
             st.session_state.lockedPredictionGroups = True 
+            st.rerun()
 
         if "lockedPredictionGroups" in st.session_state:
-
+            st.info("Choose your group standings and 8 third placed teams, then click **Lock My Group Stage Picks** to proceed to the knockout stage predictions.")
+        
+        else:
             if "userPredictionRoundOf32" not in st.session_state:
-
                 predictionRoundOf32 = []
 
                 otherQualifiedTeams = secondPlaceTeams + selectedThirdPlaceTeams
@@ -551,9 +543,6 @@ elif page == "Your Predictions":
 
             predictionRoundOf32 = st.session_state.userPredictionRoundOf32
 
-        else:
-            st.info("Choose your group standings and 8 third placed teams, then click **Lock My Group Stage Picks** to proceed to the knockout stage predictions.")
-
         def userPickRound(teams, roundName):
             st.subheader(roundName)
 
@@ -573,34 +562,35 @@ elif page == "Your Predictions":
 
             return winners
         
-            roundOf16 = userPickRound(predictionRoundOf32, "Round of 32")
-            quarterFinals = userPickRound(roundOf16, "Round of 16")
-            semiFinals = userPickRound(quarterFinals, "Quarterfinals")
-            finalTeams = userPickRound(semiFinals, "Semifinals")
-            championList = userPickRound(finalTeams, "Final")
-            if len(championList) > 0:
-                champion = championList[0]
+        roundOf16 = userPickRound(predictionRoundOf32, "Round of 32")
+        quarterFinals = userPickRound(roundOf16, "Round of 16")
+        semiFinals = userPickRound(quarterFinals, "Quarterfinals")
+        finalTeams = userPickRound(semiFinals, "Semifinals")
+        championList = userPickRound(finalTeams, "Final")
 
-            st.markdown(f"""
-            <div style="
-                background:linear-gradient(135deg,#D4AF37,#D4AF37);
-                padding:28px;
-                border-radius:22px;
-                text-align:center;
-                color:#111827;
-                font-weight:bold;
-                font-size:34px;
-                box-shadow:0 8px 25px rgba(0,0,0,.30);
-                margin-top:30px;
-            ">
-                YOUR PREDICTED CHAMPION<br>
-                <span style="font-size:42px;">
-                    {teamFlags[champion]} {champion}
-                </span>
-            </div>
-            """, unsafe_allow_html=True)
+        champion = championList[0]
+
+        st.markdown(f"""
+        <div style="
+            background:linear-gradient(135deg,#D4AF37,#D4AF37);
+            padding:28px;
+            border-radius:22px;
+            text-align:center;
+            color:#111827;
+            font-weight:bold;
+            font-size:34px;
+            box-shadow:0 8px 25px rgba(0,0,0,.30);
+            margin-top:30px;
+        ">
+            YOUR PREDICTED CHAMPION<br>
+            <span style="font-size:42px;">
+                {teamFlags[champion]} {champion}
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
 
         if st.button("🔄 Reset My Bracket"):
-            if "userPredictionRoundOf32" in st.session_state:
-                del st.session_state.userPredictionRoundOf32
+            for key in ["userPredictionRoundOf32", "lockedPredictionGruoups"]:
+                if key in st.session_state:
+                    del st.session_state[key]
             st.rerun()
